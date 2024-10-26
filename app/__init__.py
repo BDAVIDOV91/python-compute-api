@@ -1,5 +1,6 @@
-# app/__init__.py
 from flask import Flask
+
+from .db import init_db  # Import the init_db function
 
 
 def create_app():
@@ -7,6 +8,9 @@ def create_app():
 
     # Load configuration from config.py (optional, can be added later)
     # app.config.from_pyfile('config.py', silent=True)
+
+    # Initialize the database
+    init_db()  # Call the function to create the database and tables
 
     # Import the API blueprint and register it
     from .api import api_bp
