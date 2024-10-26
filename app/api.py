@@ -2,11 +2,7 @@ from flask import Blueprint, jsonify, request
 
 from .auth import authorize
 from .calculate import process_csv
-from .db import (
-    init_db,  # Ensure these functions are defined in db.py
-    save_request,
-    save_result,
-)
+from .models import Request, Result, db  # Import the models and db session
 
 api_bp = Blueprint("api", __name__)
 
@@ -27,12 +23,18 @@ def compute():
 
     # Step 3: Process the CSV file and perform calculations
     try:
-        result = process_csv(file)
+        result_value = process_csv(file)
 
         # Step 4: Save request and result in the database
-        request_id = save_request(user, filename)
-        save_result(request_id, result)
+        new_request = Request(user=user, filename=filename)
+        db.session.add(new_request)
+        db.session.commit()  # Save the request to get the request_id
 
-        return jsonify({"result": result}), 200
+        new_result = Result(request_id=new_request.id, result=result_value)
+        db.session.add(new_result)
+        db.session.commit()  # Save the result
+
+        return jsonify({"result": result_value}), 200
     except Exception as e:
+        db.session.rollback()  # Rollback in case of error
         return jsonify({"error": str(e)}), 500

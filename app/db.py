@@ -1,66 +1,18 @@
-import sqlite3
+from .models import Request, Result, db
 
 
 def init_db():
-    conn = sqlite3.connect("app.db")
-    c = conn.cursor()
-
-    # Create requests table
-    c.execute(
-        """
-        CREATE TABLE IF NOT EXISTS requests (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user TEXT,
-            filename TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    """
-    )
-
-    # Create results table
-    c.execute(
-        """
-        CREATE TABLE IF NOT EXISTS results (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            request_id INTEGER,
-            result REAL,
-            FOREIGN KEY(request_id) REFERENCES requests(id)
-        )
-    """
-    )
-
-    conn.commit()
-    conn.close()
+    db.create_all()  # This will create tables based on your models if they don't exist
 
 
 def save_request(user, filename):
-    conn = sqlite3.connect("app.db")
-    c = conn.cursor()
-
-    c.execute(
-        """
-        INSERT INTO requests (user, filename) VALUES (?, ?)
-    """,
-        (user, filename),
-    )
-
-    request_id = c.lastrowid  # Get the ID of the newly inserted request
-    conn.commit()
-    conn.close()
-
-    return request_id
+    new_request = Request(user=user, filename=filename)
+    db.session.add(new_request)
+    db.session.commit()
+    return new_request.id
 
 
 def save_result(request_id, result):
-    conn = sqlite3.connect("app.db")
-    c = conn.cursor()
-
-    c.execute(
-        """
-        INSERT INTO results (request_id, result) VALUES (?, ?)
-    """,
-        (request_id, result),
-    )
-
-    conn.commit()
-    conn.close()
+    new_result = Result(request_id=request_id, result=result)
+    db.session.add(new_result)
+    db.session.commit()

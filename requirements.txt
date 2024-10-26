@@ -6,3 +6,5 @@ Flask-Cors             # To handle CORS (Cross-Origin Resource Sharing) if neede
 pandas                 # For easier CSV handling and calculations (optional, but useful)
 pytest                 # For writing unit tests
 pytest-flask           # For testing Flask applications with pytest
+SQLAlchemy             # Provides an easy way to interact with the SQLite database using Python objects instead of raw SQL.
+flask_sqlalchemy
