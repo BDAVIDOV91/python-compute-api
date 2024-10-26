@@ -1,8 +1,12 @@
+import logging
+
 from flask import Blueprint, jsonify, request
 
 from .auth import authorize
 from .calculate import process_csv
 from .models import Request, Result, db  # Import the models and db session
+
+logging.basicConfig(level=logging.INFO)
 
 api_bp = Blueprint("api", __name__)
 
@@ -23,7 +27,7 @@ def compute():
 
     # Step 3: Process the CSV file and perform calculations
     try:
-        result_value = process_csv(file)
+        result_value = process_csv(file)  # Ensure this returns a numeric value
 
         # Step 4: Save request and result in the database
         new_request = Request(user=user, filename=filename)
