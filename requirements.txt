@@ -1,0 +1,8 @@
+# pip install -r requirements.txt
+
+Flask                  # The main web framework
+Flask-JWT-Extended     # For JWT-based authorization (if you choose to implement this)
+Flask-Cors             # To handle CORS (Cross-Origin Resource Sharing) if needed
+pandas                 # For easier CSV handling and calculations (optional, but useful)
+pytest                 # For writing unit tests
+pytest-flask           # For testing Flask applications with pytest
