@@ -13,4 +13,8 @@ def create_app():
 
     app.register_blueprint(api_bp, url_prefix="/api")
 
+    @app.route("/favicon.ico")
+    def favicon():
+        return "", 204  # No content response for favicon requests
+
     return app
