@@ -7,4 +7,4 @@ pandas                 # For easier CSV handling and calculations (optional, but
 pytest                 # For writing unit tests
 pytest-flask           # For testing Flask applications with pytest
 SQLAlchemy             # Provides an easy way to interact with the SQLite database using Python objects instead of raw SQL.
-flask_sqlalchemy
+flask_sqlalchemy       # An extension for Flask that adds support for SQLAlchemy, simplifying database interactions within Flask applications

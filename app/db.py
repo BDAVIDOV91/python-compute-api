@@ -2,7 +2,7 @@ from .models import Request, Result, db
 
 
 def init_db():
-    db.create_all()  # This will create tables based on your models if they don't exist
+    db.create_all()  # This will create tables based on models if they don't exist
 
 
 def save_request(user, filename):

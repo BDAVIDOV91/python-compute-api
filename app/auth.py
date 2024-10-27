@@ -1,6 +1,5 @@
 from flask import request
 
-# Define passphrase
 PASS_PHRASE = "mypass123"
 
 

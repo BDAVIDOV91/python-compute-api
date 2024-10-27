@@ -33,6 +33,6 @@ def process_csv(file):
         else:
             raise ValueError(
                 f"Invalid operator: {operator}"
-            )  # Ensure this matches the expectation in your tests
+            )  # Ensure this matches the expectation
 
     return result

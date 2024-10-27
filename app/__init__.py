@@ -2,13 +2,12 @@ import os
 
 from flask import Flask
 
-from .models import db  # Import db directly from models
+from .models import db
 
 
 def create_app():
     app = Flask(__name__)
 
-    # Set the database URI (SQLite in this case) to the main app.db
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(
         os.path.dirname(__file__), "app.db"
     )
