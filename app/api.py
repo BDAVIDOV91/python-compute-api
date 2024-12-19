@@ -1,10 +1,8 @@
-import logging
-
-from flask import Blueprint, jsonify, request
-
 from .auth import authorize
 from .calculate import process_csv
 from .models import Request, Result, db
+from flask import Blueprint, request, jsonify
+import logging
 
 logging.basicConfig(level=logging.INFO)
 
@@ -42,19 +40,11 @@ def compute():
         db.session.commit()  # Save the result
 
         logging.info(f"Successfully processed file: {filename} for user: {user}")
-        return jsonify({"result": result_value}), 200
-
-    except ValueError as ve:
-        logging.error(f"CSV parsing error: {ve}")
-        db.session.rollback()
-        return jsonify({"error": "Invalid CSV format or data"}), 400
-
-    except db.IntegrityError as ie:
-        logging.error(f"Database integrity error: {ie}")
-        db.session.rollback()
-        return jsonify({"error": "Database error while saving request"}), 500
+        return (
+            jsonify({"message": "File processed successfully", "result": result_value}),
+            200,
+        )
 
     except Exception as e:
-        logging.error(f"Unexpected error: {e}")
-        db.session.rollback()
-        return jsonify({"error": "An unexpected error occurred"}), 500
+        logging.error(f"Error processing file: {filename} for user: {user} - {str(e)}")
+        return jsonify({"error": "Failed to process file"}), 500
