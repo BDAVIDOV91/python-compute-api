@@ -3,24 +3,20 @@ import os
 from flask import Flask
 
 from .models import db
+from ..config import get_config
 
 
 def create_app():
     app = Flask(__name__)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(
-        os.path.dirname(__file__), "app.db"
-    )
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = (
-        False  # Disable track modifications for performance
-    )
+    # Get the environment name from the environment variable, default to 'development'
+    env_name = os.environ.get("FLASK_ENV", "development")
+    app.config.from_object(get_config(env_name))
 
-    # Initialize the SQLAlchemy database with the app
     db.init_app(app)
 
-    # Create tables within the app context
     with app.app_context():
-        db.create_all()  # Create tables if they don't exist
+        db.create_all()
 
     # Import and register the API blueprint
     from .api import api_bp
@@ -29,6 +25,6 @@ def create_app():
 
     @app.route("/favicon.ico")
     def favicon():
-        return "", 204  # No content response for favicon requests
+        return "", 204
 
     return app
