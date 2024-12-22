@@ -1,12 +1,13 @@
 import os
-
 from flask import Flask
-
 from .models import db
-from ..config import get_config
+from config import get_config  # Change this line to use absolute import
+from dotenv import load_dotenv
 
 
 def create_app():
+    load_dotenv()
+
     app = Flask(__name__)
 
     # Get the environment name from the environment variable, default to 'development'

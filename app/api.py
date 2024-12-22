@@ -1,8 +1,8 @@
-from .auth import authorize
-from .calculate import process_csv
-from .models import Request, Result, db
 from flask import Blueprint, request, jsonify
 import logging
+from .auth import authorize, generate_token
+from .calculate import process_csv
+from .models import Request, Result, db
 
 logging.basicConfig(level=logging.INFO)
 
@@ -10,19 +10,15 @@ api_bp = Blueprint("api", __name__)
 
 
 @api_bp.route("/compute", methods=["POST"])
+@authorize
 def compute():
-    # Authorization
-    if not authorize(request):
-        logging.error("Unauthorized access attempt.")
-        return jsonify({"error": "Unauthorized"}), 401
-
     # Check if a file is provided
     if "file" not in request.files:
         logging.error("No file provided in the request.")
         return jsonify({"error": "No file provided"}), 400
 
     file = request.files["file"]
-    user = "Anonymous"  # Replace with actual user info if available
+    user = request.user  # Get user from the JWT token
     filename = file.filename
     request_name = "Request for " + filename  # Dynamically generated request name
 

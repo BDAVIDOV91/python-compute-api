@@ -1,13 +1,32 @@
-from flask import request
+import os
+import jwt
+from flask import request, jsonify
+from functools import wraps
 
-PASS_PHRASE = "mypass123"
+SECRET_KEY = os.environ.get("SECRET_KEY") or "a_very_secret_key"
 
 
-def authorize(req):
-    # Check if the 'Authorization' header is present
-    auth_header = req.headers.get("Authorization")
+def authorize(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        token = None
+        if "Authorization" in request.headers:
+            token = request.headers["Authorization"].split(" ")[1]
 
-    if auth_header is None:
-        return False
+        if not token:
+            return jsonify({"error": "Token is missing!"}), 401
 
-    return auth_header == PASS_PHRASE
+        try:
+            data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+            request.user = data["user"]
+        except Exception as e:
+            return jsonify({"error": "Token is invalid!"}), 401
+
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+
+def generate_token(user):
+    token = jwt.encode({"user": user}, SECRET_KEY, algorithm="HS256")
+    return token
