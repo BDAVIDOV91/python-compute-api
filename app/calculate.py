@@ -2,37 +2,21 @@ import pandas as pd
 
 
 def process_csv(file):
-    # Read the CSV file into a DataFrame
     try:
         df = pd.read_csv(file)
+        df.columns = ["A", "O", "B"]
+        result = 0
+        for index, row in df.iterrows():
+            if row["O"] == "+":
+                result += row["A"] + row["B"]
+            elif row["O"] == "-":
+                result += row["A"] - row["B"]
+            elif row["O"] == "*":
+                result += row["A"] * row["B"]
+            elif row["O"] == "/":
+                result += row["A"] / row["B"]
+        return result
     except pd.errors.EmptyDataError:
-        raise ValueError(
-            "The CSV file must contain an 'amount' column."
-        )  # Updated message for empty CSV
-
-    # Check if the necessary columns exist
-    if "A" not in df.columns or "O" not in df.columns or "B" not in df.columns:
-        raise ValueError(
-            "The CSV file must contain an 'amount' column."
-        )  # Updated message to match the test expectations
-
-    result = 0
-    for _, row in df.iterrows():
-        a = row["A"]
-        operator = row["O"]
-        b = row["B"]
-
-        if operator == "+":
-            result += a + b
-        elif operator == "-":
-            result += a - b
-        elif operator == "*":
-            result += a * b
-        elif operator == "/":
-            result += a / b
-        else:
-            raise ValueError(
-                f"Invalid operator: {operator}"
-            )  # Ensure this matches the expectation
-
-    return result
+        raise ValueError("Empty CSV file")
+    except Exception as e:
+        raise ValueError(f"Error processing CSV file: {e}")

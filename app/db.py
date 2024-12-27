@@ -1,4 +1,4 @@
-from .models import Request, Result, db
+from app.models import Request, Result, db
 
 
 def init_db():

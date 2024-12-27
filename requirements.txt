@@ -1,10 +1,9 @@
-# pip install -r requirements.txt
-
-Flask                  # The main web framework
-Flask-JWT-Extended     # For JWT-based authorization (if you choose to implement this)
-Flask-Cors             # To handle CORS (Cross-Origin Resource Sharing) if needed
-pandas                 # For easier CSV handling and calculations (optional, but useful)
-pytest                 # For writing unit tests
-pytest-flask           # For testing Flask applications with pytest
-SQLAlchemy             # Provides an easy way to interact with the SQLite database using Python objects instead of raw SQL.
-flask_sqlalchemy       # An extension for Flask that adds support for SQLAlchemy, simplifying database interactions within Flask applications
+Flask==2.1.2                  # The main web framework
+Flask-JWT-Extended==4.4.4     # For JWT-based authorization
+Flask-Cors==3.0.10            # To handle CORS (Cross-Origin Resource Sharing) if needed
+pandas==1.4.2                 # For easier CSV handling and calculations
+pytest==7.1.2                 # For writing unit tests
+pytest-flask==1.2.0           # For testing Flask applications with pytest
+SQLAlchemy==1.4.36            # Provides an easy way to interact with the SQLite database using Python objects instead of raw SQL
+flask_sqlalchemy==2.5.1       # An extension for Flask that adds support for SQLAlchemy, simplifying database interactions within Flask applications
+Werkzeug==2.1.2               # A comprehensive WSGI web application library

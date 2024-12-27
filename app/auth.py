@@ -3,7 +3,7 @@ import jwt
 from flask import request, jsonify
 from functools import wraps
 
-SECRET_KEY = os.environ.get("SECRET_KEY") or "a_very_secret_key"
+SECRET_KEY = os.environ.get("SECRET_KEY") or "bgts"
 
 
 def authorize(f):

@@ -1,15 +1,11 @@
-# config.py still in progress
-
 import os
 
 
 class Config:
     """Configuration settings for the Flask application."""
 
-    SECRET_KEY = os.environ.get("SECRET_KEY") or "a_very_secret_key"
-    SQLALCHEMY_DATABASE_URI = (
-        os.environ.get("DATABASE_URL") or "sqlite:///instance/app.db"
-    )
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(BASE_DIR, 'instance/app.db')}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # Disable tracking modifications
     LOG_LEVEL = os.environ.get("LOG_LEVEL") or "INFO"
     UPLOAD_FOLDER = os.environ.get("UPLOAD_FOLDER") or "uploads"
@@ -27,15 +23,15 @@ class TestingConfig(Config):
     """Testing configuration."""
 
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"  # Use a separate test database
+    SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.abspath('instance/app.db')}"
     WTF_CSRF_ENABLED = False  # Disable CSRF protection for testing
 
 
 class ProductionConfig(Config):
     """Development configuration."""
 
-    DEBUG = True
-    SQLALCHEMY_ECHO = True  # Log SQL queries for debugging
+    DEBUG = False
+    SQLALCHEMY_ECHO = False  # Log SQL queries for debugging
 
 
 config_by_name = {

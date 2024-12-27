@@ -6,17 +6,9 @@ db = SQLAlchemy()
 class Request(db.Model):
     __tablename__ = "requests"
     id = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.String, nullable=False)
-    request_name = db.Column(
-        db.String, nullable=False
-    )  # Added field for name of request
-    filename = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
-
-    # Relationship to results
-    results = db.relationship(
-        "Result", back_populates="request", cascade="all, delete-orphan"
-    )
+    user = db.Column(db.String(80), nullable=False)
+    filename = db.Column(db.String(120), nullable=False)
+    timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
 
 
 class Result(db.Model):
@@ -24,6 +16,4 @@ class Result(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     request_id = db.Column(db.Integer, db.ForeignKey("requests.id"), nullable=False)
     result = db.Column(db.Float, nullable=False)
-
-    # Relationship back to request
-    request = db.relationship("Request", back_populates="results")
+    timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
