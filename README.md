@@ -35,6 +35,12 @@ The `config.py` file includes settings for:
    pip install -r requirements.txt
 
 4. **Create an .env file: Create a .env file in the root directory with the following content:**.
+   ```bash
+   FLASK_ENV=development
+   SECRET_KEY=bgts
+   DATABASE_URL=sqlite:///instance/app.db
+   LOG_LEVEL=INFO
+   UPLOAD_FOLDER=uploads
 
 5. **Run the application**:
    ```bash
@@ -42,11 +48,11 @@ The `config.py` file includes settings for:
    The application will be available at http://127.0.0.1:5000.
  
 6. **Running the Tests**:
-   ```bash
-   1. Activate the virtual environment:
-   source venv/bin/activate
-
+   1.Activate the virtual environment:
    2.Run the tests using pytest:
+
+   ```bash
+   source venv/bin/activate
    pytest tests/
 
 7. **API Endpoint**:
