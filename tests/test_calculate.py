@@ -1,11 +1,9 @@
+import pytest
+from app.calculate import process_csv
 from io import StringIO
 
-import pytest
 
-from app.calculate import process_csv
-
-
-def test_process_csv_valid():
+def test_process_csv():
     data = """A,O,B
 1,+,2
 3,*,4
@@ -14,7 +12,7 @@ def test_process_csv_valid():
 """
     csv_file = StringIO(data)
     result = process_csv(csv_file)
-    assert result == 16.0  # Update based on your expected calculation
+    assert result == 16.0
 
 
 def test_process_csv_no_amount_column():
@@ -24,7 +22,7 @@ def test_process_csv_no_amount_column():
 """
     csv_file = StringIO(data)
     with pytest.raises(
-        ValueError, match="The CSV file must contain an 'amount' column."
+        ValueError, match="The CSV file must contain 'A', 'O', and 'B' columns."
     ):
         process_csv(csv_file)
 
@@ -42,7 +40,5 @@ def test_process_csv_invalid_operator():
 def test_process_csv_empty_file():
     data = ""
     csv_file = StringIO(data)
-    with pytest.raises(
-        ValueError, match="The CSV file must contain an 'amount' column."
-    ):
+    with pytest.raises(ValueError, match="The CSV file is empty."):
         process_csv(csv_file)
