@@ -69,3 +69,8 @@ The `config.py` file includes settings for:
 8. **Using SQLite Browser**:
 - To view and manage the SQLite database, you can use SQLite Browser. 
 - Make sure to install it on your Linux environment and open the database file to track requests and results.
+
+9. **Additional Changes**:
+- Updated test_data.py: Modified the script to use test_calculations.csv and save the calculated result.
+- Updated __init__.py: Added logic to read and process the test_calculations.csv file and passed the calculated result to the template.
+- Updated admin.html: Removed unnecessary lines and ensured the template displays only the relevant information.
