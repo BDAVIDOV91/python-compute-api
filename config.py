@@ -28,7 +28,7 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    """Development configuration."""
+    """Production configuration."""
 
     DEBUG = False
     SQLALCHEMY_ECHO = False  # Log SQL queries for debugging
